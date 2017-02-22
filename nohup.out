@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "mannybot.py", line 21, in <module>
+    executeTweets()
+  File "mannybot.py", line 15, in executeTweets
+    my_bot.send_tweet(line)
+  File "/Users/marika.lee/git-projects/TwitterFollowBot/TwitterFollowBot/__init__.py", line 457, in send_tweet
+    return self.TWITTER_CONNECTION.statuses.update(status=message)
+  File "build/bdist.macosx-10.11-intel/egg/twitter/api.py", line 308, in __call__
+  File "build/bdist.macosx-10.11-intel/egg/twitter/api.py", line 341, in _handle_response
+twitter.api.TwitterHTTPError: Twitter sent status 403 for URL: 1.1/statuses/update.json using parameters: (oauth_consumer_key=SxcLbkQg3RoJoBsI2BUCeGaZG&oauth_nonce=14198254357621203155&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1487721837&oauth_token=770104729183592448-pD08gYY29HG7Y4Qo9b51Mt0Db80gQP6&oauth_version=1.0&status=msg%201%0A&oauth_signature=foccs0O3zAV9CONaYocL8WwxVaU%3D)
+details: {u'errors': [{u'message': u'Status is a duplicate.', u'code': 187}]}
+TWEETED: i have a cat
+
+TWEETED: she sits on a mat
+
+TWEETED: and just wants a pat
+
+TWEETED: and shes kind of fat
+Traceback (most recent call last):
+  File "mannybot.py", line 22, in <module>
+    executeTweets()
+  File "mannybot.py", line 16, in executeTweets
+    my_bot.send_tweet(line)
+  File "/Users/marika.lee/git-projects/TwitterFollowBot/TwitterFollowBot/__init__.py", line 457, in send_tweet
+    return self.TWITTER_CONNECTION.statuses.update(status=message)
+  File "build/bdist.macosx-10.11-intel/egg/twitter/api.py", line 308, in __call__
+  File "build/bdist.macosx-10.11-intel/egg/twitter/api.py", line 341, in _handle_response
+twitter.api.TwitterHTTPError: Twitter sent status 403 for URL: 1.1/statuses/update.json using parameters: (oauth_consumer_key=SxcLbkQg3RoJoBsI2BUCeGaZG&oauth_nonce=15868087752702590558&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1487722929&oauth_token=770104729183592448-pD08gYY29HG7Y4Qo9b51Mt0Db80gQP6&oauth_version=1.0&status=i%20have%20a%20cat%0A&oauth_signature=NaB2C1l8BuuKdflmNm%2F%2FsJmyuu0%3D)
+details: {u'errors': [{u'message': u'Status is a duplicate.', u'code': 187}]}
