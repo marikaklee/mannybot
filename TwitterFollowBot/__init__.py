@@ -32,7 +32,7 @@ class TwitterBot:
         and favoriting tweets.
     """
 
-    def __init__(self, config_file="config.txt"):
+    def __init__(self, config_file="configs/config.txt"):
         # this variable contains the configuration for the bot
         self.BOT_CONFIG = {}
 
