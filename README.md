@@ -1,14 +1,42 @@
-###MannyBot
+#MannyBot
+A Python Bot that automates sending tweets everyday and runs in the background.
 
-#How to run:
+##Capabilities:
+- Configure time to tweet any time of the day
+- Configure to run at an interval of time (every hour, day, week, etc)
+
+##How to run:
+- Change configuration in _init_.py 
+```
+OAUTH_TOKEN:****
+OAUTH_SECRET:****
+CONSUMER_KEY:****
+CONSUMER_SECRET:****
+TWITTER_HANDLE:marikalee15
+```
+- Create a folder within the MannyBot project folder
+- Set the folder name to the variable 'twitterAccount' in mannybot.py
+```
+twitterAccount = 'marikalee15'
+```
+- Change filepath of textfile to read the tweets from
+```
+tweetFile = open('{FILE PATH}%s' % twitterAccount + '/tweets.txt');
+```
+- Run this command to execute this script in the background
+```
 nohup python mannybot.py &
-(console output in nohup.txt)
+```
 
-#Change configurations / Twitter account
-Change the config file in TwitterFollowBot/_init_.py 
-
-#Change read file for automated tweets
-Change source file "TweetFile" in mannybot.py
-
-#Sources
+##Dependencies
+- pip install {all dependencies below}
+```
 TwitterFollowBot 
+gspread 
+urllib2 
+twitter 
+sched 
+urllib2
+```
+##Sources
+- TwitterFollowBot 
