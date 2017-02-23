@@ -28,7 +28,7 @@ tweetFile = open('{FILE PATH}%s' % twitterAccount + '/tweets.txt');
 nohup python mannybot.py &
 ```
 
-##Dependencies
+##Python Dependencies
 - pip install {all dependencies below}
 ```
 TwitterFollowBot 
