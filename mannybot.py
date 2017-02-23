@@ -3,8 +3,14 @@ import random
 import time
 import gspread
 from time import gmtime, strftime
-import collections
+from datetime import datetime, date
+from threading import Timer
+import urllib2
+from twitter import Twitter, TwitterError, TwitterHTTPError
+import sched
 
+twitterAccount = 'drmannylam'
+my_bot = TwitterBot()
 
 #---------Read from Google Spreadsheet file
 # import gspread
@@ -24,60 +30,51 @@ import collections
 # print wks.acell("A1").value
 # print wks.cell(1,1).value
 
-my_bot = TwitterBot()
-
 #--------automatically reads file and send out tweets
 def executeTweets():
-	#TODO: put read files in read_files.txt
-	#If read alerady, then go to the next line 
-	tweetFile = open('/Users/marika.lee/Dropbox/mannyBot/mannytesting.txt');
-	#doneFile = open('done.txt', "w")
+	#If read already, then go to the next line 
+
+	print '************'
+	tweetFile = open('/Users/marika.lee/Dropbox/mannyBot/%s' % twitterAccount + '/tweets.txt');
+
+	#catch exception is file is wrong
+	tweetFile = open('tweets.txt');
 	with tweetFile as f:
 		for line in f:
-			
+			print "*****[{:%b %d | %H:%M}".format(datetime.today()),"] TWEET:",line,
 			try:
-				my_bot.send_tweet(line)
-				#my_bot.send_tweet("Currently tweeting at..."+strftime("%H:%M", gmtime()))
-				print "TWEETED: " + line
-				#READ from Google excel - temporary from DropBox Excel sheet
-				#TODO: WRITE to done.txt file 
-				#TODO: be able to add in images 
-				#TODO: add to text file while running
+				print "!!!SUCCESSFULL!!!"
+
+				with open('textfiles/done.txt', 'a') as file:
+					file.write(line)
+
+				time.sleep(300)	 #5 minutes
+
+			except TwitterError as err:
+   				if err.e.code == 404:
+   					print "ERROR 404 Page not found"
+   				elif err.e.code == 403:
+   					print "ERROR 403 Status is duplicate"
+				else:
+					print "ERROR ", err.e.code
+						
+	
+def scheduler_reddit():	
+	scheduler = sched.scheduler(time.time, time.sleep)
+	scheduler.enter(0, 1, executeTweets(), ())
+  	scheduler.run()
+
+print "START TIME {:%H:%M:%S}".format(datetime.today())
+while True:
+  scheduler_reddit()
+
+
+				#TODO check 140 characters
+				#TODO read from Google excel - temporary from DropBox Excel sheet
+				#TODO be able to add in images 
+				#TODO add to text file while running
 				#TODO restart server if exits
+				#TODO Notification when tweet sent. email? text?
 
-				#DrMannyLam: everday 9AM PST
-				#JournalClub: 
-				time.sleep(60)
-			except:
-				print "THIS TWEET HAS ALREADY BEEN TWEETTED."
-				pass				
-			
-executeTweets()
-#randomLine = (random.choice(list(file_)))
-#my_bot.send_tweet(content);
 
-#--------automatically follow any users that tweet something with a specific phrase 
-#my_bot.auto_follow("cats", count=10)
-#my_bot.auto_follow("#cats", count=10)
-
-#--------automatically follow any users that have followed me
-#my_bot.auto_follow_followers()
-
-#--------automatically follow any users that follow a user
-#my_bot.auto_follow_followers_of_user("marikalee15", count=10)
-
-#--------automatically favorite tweets that have a specific phrase
-#my_bot.auto_fav("fasting", count=10)
-
-#--------automatically retweet any tweets with specific phrase
-#my_bot.auto_rt("cats", count=10)
-
-#--------automatically unfollow any users that have not follow you back
-#my_bot.auto_unfollow_nonfollowers()
-
-#--------automagically mute all users that you have followed
-#my_bot.auto_mute_following()
-
-#--------automagically unmute all users that you have muted
-#my_bot.auto_unmute()
 
