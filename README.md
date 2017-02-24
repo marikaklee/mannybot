@@ -36,7 +36,6 @@ gspread
 urllib2 
 twitter 
 sched 
-urllib2
 ```
 ##Sources
 - TwitterFollowBot 

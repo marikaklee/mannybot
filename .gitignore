@@ -2,3 +2,6 @@
 *.class
 *~
 nohup.out
+textfiles/.DS_Store
+AUTHORS
+LICENSE

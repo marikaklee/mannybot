@@ -1,3 +1,4 @@
+import schedule
 from TwitterFollowBot import TwitterBot
 import random
 import time
@@ -9,8 +10,8 @@ import urllib2
 from twitter import Twitter, TwitterError, TwitterHTTPError
 import sched
 
-twitterAccount = 'drmannylam'
-my_bot = TwitterBot()
+TWITTER_ACCOUNT = 'marikalee15'
+TWEET_TIME = 1; #4PM
 
 #---------Read from Google Spreadsheet file
 # import gspread
@@ -30,51 +31,42 @@ my_bot = TwitterBot()
 # print wks.acell("A1").value
 # print wks.cell(1,1).value
 
-#--------automatically reads file and send out tweets
+my_bot = TwitterBot()
+
 def executeTweets():
-	#If read already, then go to the next line 
+	#lines = open('/Users/marika.lee/Dropbox/mannyBot/%s' % TWITTER_ACCOUNT + '/tweets.txt').readLines()
+	lines = open('tweets.txt').readlines()
 
-	print '************'
-	tweetFile = open('/Users/marika.lee/Dropbox/mannyBot/%s' % twitterAccount + '/tweets.txt');
+	if (len(lines) < 1):
+		return
 
-	#catch exception is file is wrong
-	tweetFile = open('tweets.txt');
-	with tweetFile as f:
-		for line in f:
-			print "*****[{:%b %d | %H:%M}".format(datetime.today()),"] TWEET:",line,
-			try:
-				print "!!!SUCCESSFULL!!!"
+	tweet = lines[0]
 
-				with open('textfiles/done.txt', 'a') as file:
-					file.write(line)
+	open('done.txt', 'w').writelines(tweet)
+	open('tweets.txt', 'w').writelines(lines[1:len(lines)])
 
-				time.sleep(300)	 #5 minutes
+	print "[{:%b %d | %H:%M}".format(datetime.today()) + "] Tweeting...", tweet,
 
-			except TwitterError as err:
-   				if err.e.code == 404:
-   					print "ERROR 404 Page not found"
-   				elif err.e.code == 403:
-   					print "ERROR 403 Status is duplicate"
-				else:
-					print "ERROR ", err.e.code
-						
-	
-def scheduler_reddit():	
-	scheduler = sched.scheduler(time.time, time.sleep)
-	scheduler.enter(0, 1, executeTweets(), ())
-  	scheduler.run()
+	try:
+		if datetime.now().hour == TWEET_TIME:
+			my_bot.send_tweet(tweet)
+			print "!!!SUCCESSFULL TWEET!!!"
 
-print "START TIME {:%H:%M:%S}".format(datetime.today())
-while True:
-  scheduler_reddit()
+	except TwitterError as err:
+   		if err.e.code == 404:
+   			print "ERROR 404 Page not found"
+   		elif err.e.code == 403:
+   			print "ERROR 403 Status is duplicate"
+		else:
+			print "ERROR ", err.e.code
+			
+schedule.every(.1).minutes.do(executeTweets)
+#schedule.every().hour.do(job)
+#schedule.every().day.at(str(TWEET_TIME)).do(executeTweets)
 
-
-				#TODO check 140 characters
-				#TODO read from Google excel - temporary from DropBox Excel sheet
-				#TODO be able to add in images 
-				#TODO add to text file while running
-				#TODO restart server if exits
-				#TODO Notification when tweet sent. email? text?
+while 1:
+    schedule.run_pending()
+    time.sleep(1)
 
 
 
