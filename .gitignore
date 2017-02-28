@@ -1,3 +1,4 @@
+logs.log
 /configs
 *.class
 *~
@@ -5,3 +6,4 @@ nohup.out
 textfiles/.DS_Store
 AUTHORS
 LICENSE
+application_default_credentials.json

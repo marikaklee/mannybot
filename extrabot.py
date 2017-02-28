@@ -1,6 +1,9 @@
+from TwitterFollowBot import TwitterBot
+
+my_bot = TwitterBot()
 #--------automatically follow any users that tweet something with a specific phrase 
-#my_bot.auto_follow("cats", count=10)
-#my_bot.auto_follow("#cats", count=10)
+my_bot.auto_follow("programming", count=10)
+my_bot.auto_follow("#programming", count=10)
 
 #--------automatically follow any users that have followed me
 #my_bot.auto_follow_followers()
