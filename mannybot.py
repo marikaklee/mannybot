@@ -33,7 +33,7 @@ print is_connected()
 my_bot = TwitterBot()
 def executeTweets():
 
-	if (is_connected() != True):
+	if (is_connected() == False):
 		time.sleep(5)
 		executeTweets()
 
