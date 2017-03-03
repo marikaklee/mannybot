@@ -15,8 +15,8 @@ import socket
 #PROJECT = 'MannyBot'
 #ACCOUNT = 'drmannylam'
 PROJECT = 'MannyBot'
-ACCOUNT = 'drmannylam'
-TWEET_TIME = 10; #9AM
+ACCOUNT = 'journalclubapp'
+TWEET_TIME = 9; #9AM
 REMOTE_SERVER = "www.google.com"
 
 def is_connected():
@@ -33,51 +33,48 @@ print is_connected()
 my_bot = TwitterBot()
 def executeTweets():
 
-	if (is_connected() == False):
-		time.sleep(5)
-		executeTweets()
+    if (is_connected() == False):
+        time.sleep(5)
+        executeTweets()
 
-	TWEETSPATH = '/Users/marika.lee/Dropbox/%s/%s/tweets.txt' % (PROJECT, ACCOUNT)
-	DONEPATH = '/Users/marika.lee/Dropbox/%s/%s/done.txt' % (PROJECT, ACCOUNT)
-	
-	file = open(TWEETSPATH, 'r')
-	lines = file.readlines()
+    TWEETSPATH = '/Users/marika.lee/Dropbox/%s/%s/tweets.txt' % (PROJECT, ACCOUNT)
+    DONEPATH = '/Users/marika.lee/Dropbox/%s/%s/done.txt' % (PROJECT, ACCOUNT)
+    
+    file = open(TWEETSPATH, 'r')
+    lines = file.readlines()
 
-	if (len(lines) < 1):
-		print "---------------NO MORE TWEETS LEFT---------------"
-		return
+    if (len(lines) < 1):
+        print "---------------NO MORE TWEETS LEFT---------------"
+        return
 
-	tweet = lines[0]
-
-
-	if ("RULERRULERRULER" in tweet):
-		return
+    tweet = lines[0]
 
 
-	print "[{:%b %d | %H:%M}".format(datetime.today()) + "] Tweeting...", str(tweet)
+    print "[{:%b %d | %H:%M}".format(datetime.today()) + "] Tweeting...", str(tweet)
 
-	open(DONEPATH, 'a').writelines(tweet)
-	open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
-	
-	try:
-		if datetime.now().hour == TWEET_TIME:
-			my_bot.send_tweet(tweet)
-			print "---------------SUCCESSFULL TWEET---------------"
-	except TwitterError as err:
-   		if err.e.code == 404:
-   			print ("ERROR 404 Page not found")
-   		elif err.e.code == 403:
-   			print ("ERROR 403 Status is duplicate")
-		else:
-			print ("ERROR ", err.e.code)
-	
+    open(DONEPATH, 'a').writelines(tweet)
+    open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
+    
+    try:
+        if datetime.now().hour == TWEET_TIME:
+            my_bot.send_tweet(tweet)
+            print "---------------SUCCESSFULL TWEET---------------"
+            return true
+    except TwitterError as err:
+        if err.e.code == 404:
+            print ("ERROR 404 Page not found")
+        elif err.e.code == 403:
+            print ("ERROR 403 Status is duplicate")
+        else:
+            print ("ERROR ", err.e.code)
+    
 
 print "---------------MANNYBOT HAS STARTED---------------"
-#executeTweets()		
+#executeTweets()        
 #schedule.every(1).minutes.do(executeTweets)
 #schedule.every().hour.do(job)
 
-schedule.every().day.at("10:44").do(executeTweets)
+#schedule.every().day.at("09:00").do(executeTweets)
 
 
 while 1:

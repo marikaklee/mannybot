@@ -1,15 +1,19 @@
 from TwitterFollowBot import TwitterBot
 
+
 my_bot = TwitterBot()
+my_bot.get_followers_list()
+
+#my_bot.get_followers_list(self)
 #--------automatically follow any users that tweet something with a specific phrase 
-#my_bot.auto_follow("intermittentfasting", count=10)
-#my_bot.auto_follow("#intermittentfasting", count=10)
+my_bot.auto_follow("#lowcarb", count=100)
+my_bot.auto_follow("lowcarb", count=100)
 
 #--------automatically follow any users that have followed me
 #my_bot.auto_follow_followers(
 
 #--------automatically follow any users that follow a user
-my_bot.auto_follow_followers_of_user("garytaubes", count=30)
+#my_bot.auto_follow_followers_of_user("@dietdoctor1", count=8000)
 
 #--------automatically favorite tweets that have a specific phrase
 #my_bot.auto_fav("fasting", count=10)
