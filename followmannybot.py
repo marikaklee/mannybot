@@ -6,8 +6,9 @@ my_bot.get_followers_list()
 
 #my_bot.get_followers_list(self)
 #--------automatically follow any users that tweet something with a specific phrase 
-my_bot.auto_follow("#lowcarb", count=100)
-my_bot.auto_follow("lowcarb", count=100)
+#my_bot.auto_follow("intermittentfasting", count=50)
+
+my_bot.auto_follow("#keto", count=50)
 
 #--------automatically follow any users that have followed me
 #my_bot.auto_follow_followers(

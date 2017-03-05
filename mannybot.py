@@ -12,11 +12,28 @@ import sched
 import gspread
 import socket
 
-#PROJECT = 'MannyBot'
-#ACCOUNT = 'drmannylam'
-PROJECT = 'MannyBot'
-ACCOUNT = 'drmannylam'
-TWEET_TIME = 10; #9AM
+#-------------SET VARIABLES HERE ONLY-------------
+AUTOBOT = 'TESTING'
+TYPE = 'HOME'
+#-------------------------------------------------
+
+if (AUTOBOT ==  'MANNY'):
+	PROJECT = 'MannyBot'
+	ACCOUNT = 'drmannylam'
+
+if (AUTOBOT == 'TESTING'):
+	PROJECT = 'TestingBot'
+	ACCOUNT = 'marikalee15'
+
+if (TYPE == 'HOME'):
+	COMPUTER = 'marikalee'
+
+if (TYPE =='WORK'):
+	COMPUTER = 'marika.lee'
+
+#PROJECT = 'TestingBot'
+#ACCOUNT = 'marikalee15'
+TWEET_TIME = 11; #9AM
 REMOTE_SERVER = "www.google.com"
 
 def is_connected():
@@ -37,8 +54,8 @@ def executeTweets():
 		time.sleep(5)
 		executeTweets()
 
-	TWEETSPATH = '/Users/marika.lee/Dropbox/%s/%s/tweets.txt' % (PROJECT, ACCOUNT)
-	DONEPATH = '/Users/marika.lee/Dropbox/%s/%s/done.txt' % (PROJECT, ACCOUNT)
+	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets.txt' % (COMPUTER, PROJECT, ACCOUNT)
+	DONEPATH = '/Users/%s/Dropbox/%s/%s/done.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	
 	file = open(TWEETSPATH, 'r')
 	lines = file.readlines()
@@ -49,10 +66,8 @@ def executeTweets():
 
 	tweet = lines[0]
 
-
 	if ("RULERRULERRULER" in tweet):
-		return
-
+		tweet = lines[1]
 
 	print "[{:%b %d | %H:%M}".format(datetime.today()) + "] Tweeting...", str(tweet)
 
@@ -77,7 +92,7 @@ print "---------------MANNYBOT HAS STARTED---------------"
 #schedule.every(1).minutes.do(executeTweets)
 #schedule.every().hour.do(job)
 
-schedule.every().day.at("10:44").do(executeTweets)
+schedule.every().day.at("11:50").do(executeTweets)
 
 
 while 1:
