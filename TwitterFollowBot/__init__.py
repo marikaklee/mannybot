@@ -24,20 +24,23 @@ import sys
 import time
 import random
 
-
 class TwitterBot:
+
+    #CONFIG = "configs/mannyconfig.txt"
+    #CONFIG = "configs/journalclubappconfig.txt"
+    CONFIG = "configs/config.txt"
 
     """
         Bot that automates several actions on Twitter, such as following users
         and favoriting tweets.
     """
-
-    def __init__(self, config_file="configs/config.txt"):
+    def __init__(self, config_file=CONFIG):
         # this variable contains the configuration for the bot
         self.BOT_CONFIG = {}
 
         # this variable contains the authorized connection to the Twitter API
         self.TWITTER_CONNECTION = None
+
 
         self.bot_setup(config_file)
 
@@ -66,7 +69,8 @@ class TwitterBot:
 
         return wait_time
 
-    def bot_setup(self, config_file="config.txt"):
+    def bot_setup(self, config_file=CONFIG):
+
         """
             Reads in the bot configuration file and sets up the bot.
 

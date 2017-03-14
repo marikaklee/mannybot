@@ -13,17 +13,24 @@ import gspread
 import socket
 
 #-------------SET VARIABLES HERE ONLY-------------
-AUTOBOT = 'TESTING'
-TYPE = 'HOME'
+AUTOBOT = 'T'
+TYPE = 'WORK'
 #-------------------------------------------------
 
-if (AUTOBOT ==  'MANNY'):
+if (AUTOBOT ==  'M'):
 	PROJECT = 'MannyBot'
 	ACCOUNT = 'drmannylam'
+	print "---------------MANNYBOT HAS STARTED---------------"
 
-if (AUTOBOT == 'TESTING'):
+if (AUTOBOT == 'T'):
 	PROJECT = 'TestingBot'
 	ACCOUNT = 'marikalee15'
+	print "---------------TESTINGBOT HAS STARTED---------------"
+
+if (AUTOBOT == 'J'):
+	PROJECT = 'MannyBot'
+	ACCOUNT = 'journalclubapp'
+	print "---------------JOURNALBOT HAS STARTED---------------"
 
 if (TYPE == 'HOME'):
 	COMPUTER = 'marikalee'
@@ -31,9 +38,8 @@ if (TYPE == 'HOME'):
 if (TYPE =='WORK'):
 	COMPUTER = 'marika.lee'
 
-#PROJECT = 'TestingBot'
-#ACCOUNT = 'marikalee15'
-TWEET_TIME = 11; #9AM
+
+TWEET_TIME = 7; #9AM
 REMOTE_SERVER = "www.google.com"
 
 def is_connected():
@@ -44,14 +50,14 @@ def is_connected():
   except:
      pass
   return False
-print is_connected()
-
+  print is_connected()
 
 my_bot = TwitterBot()
-def executeTweets():
 
+def executeTweets():
 	if (is_connected() == False):
 		time.sleep(5)
+		print "---------------NEED WIFI---------------"
 		executeTweets()
 
 	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets.txt' % (COMPUTER, PROJECT, ACCOUNT)
@@ -66,33 +72,45 @@ def executeTweets():
 
 	tweet = lines[0]
 
-	if ("RULERRULERRULER" in tweet):
-		tweet = lines[1]
+	if ("RULERRULERRULER" in tweet or "LATER:" in tweet):
+	 	tweet = lines[1]
 
-	print "[{:%b %d | %H:%M}".format(datetime.today()) + "] Tweeting...", str(tweet)
+	#TODO: add case when these are in first 2 line
 
-	open(DONEPATH, 'a').writelines(tweet)
-	open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
+	print "--- [{:%b %d | %H:%M}".format(datetime.today()) + "] --- "
+	print "Tweeting...", str(tweet)
+
 	
 	try:
-		if datetime.now().hour == TWEET_TIME:
-			my_bot.send_tweet(tweet)
+		#if datetime.now().hour == TWEET_TIME 
+		if "RULERRULERRULER" not in tweet and "LATER:" not in tweet:
+			#my_bot.send_tweet(tweet)
 			print "---------------SUCCESSFULL TWEET---------------"
+			print tweet
+			#open(DONEPATH, 'a').writelines(tweet)
+			#open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
+	
+
 	except TwitterError as err:
+		if err.e.code == 401:
+			print ("ERROR 401 Token expired")
    		if err.e.code == 404:
    			print ("ERROR 404 Page not found")
+   			executeTweets()
    		elif err.e.code == 403:
    			print ("ERROR 403 Status is duplicate")
+   			open(DONEPATH, 'a').writelines(tweet)
+			open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
+			executeTweets()
 		else:
 			print ("ERROR ", err.e.code)
 	
 
-print "---------------MANNYBOT HAS STARTED---------------"
-#executeTweets()		
+
+executeTweets()		
 #schedule.every(1).minutes.do(executeTweets)
 #schedule.every().hour.do(job)
-
-schedule.every().day.at("11:50").do(executeTweets)
+#schedule.every().day.at("06:30").do(executeTweets)
 
 
 while 1:

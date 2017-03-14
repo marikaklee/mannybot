@@ -2,13 +2,28 @@ from TwitterFollowBot import TwitterBot
 
 
 my_bot = TwitterBot()
-my_bot.get_followers_list()
 
-#my_bot.get_followers_list(self)
+#my_bot.sync_follows()
 #--------automatically follow any users that tweet something with a specific phrase 
-#my_bot.auto_follow("intermittentfasting", count=50)
 
-my_bot.auto_follow("#keto", count=50)
+#my_bot.auto_unfollow_nonfollowers()
+
+# my_bot.auto_follow("keto", count=50)
+# my_bot.auto_follow("#keto", count=50)
+# my_bot.auto_follow("ketogenic", count=50)
+# # my_bot.auto_follow("#ketogenic", count=50)
+# my_bot.auto_follow("lchf", count=50)
+# my_bot.auto_follow("#nutrition", count=50)
+my_bot.auto_follow("stanford", count=50)
+my_bot.auto_follow("#stanford", count=50)
+my_bot.auto_follow("stanfordmed", count=50)
+my_bot.auto_follow("#stanfordmed", count=50)
+my_bot.auto_follow("medicine", count=50)
+my_bot.auto_follow("#medicine", count=50)
+
+
+
+
 
 #--------automatically follow any users that have followed me
 #my_bot.auto_follow_followers(
@@ -23,6 +38,7 @@ my_bot.auto_follow("#keto", count=50)
 #my_bot.auto_rt("cats", count=10)
 
 #--------automatically unfollow any users that have not follow you back
+
 #my_bot.auto_unfollow_nonfollowers()
 
 #--------automagically mute all users that you have followed
