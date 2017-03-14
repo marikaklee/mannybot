@@ -39,7 +39,7 @@ if (TYPE =='WORK'):
 	COMPUTER = 'marika.lee'
 
 
-TWEET_TIME = 7; #9AM
+#TWEET_TIME = 7;
 REMOTE_SERVER = "www.google.com"
 
 def is_connected():
@@ -55,10 +55,10 @@ def is_connected():
 my_bot = TwitterBot()
 
 def executeTweets():
-	if (is_connected() == False):
-		time.sleep(5)
-		print "---------------NEED WIFI---------------"
-		executeTweets()
+	# if (is_connected() == False):
+	# 	time.sleep(5)
+	# 	print "Trying to connect to wifi.."
+	# 	executeTweets()
 
 	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	DONEPATH = '/Users/%s/Dropbox/%s/%s/done.txt' % (COMPUTER, PROJECT, ACCOUNT)
@@ -67,8 +67,9 @@ def executeTweets():
 	lines = file.readlines()
 
 	if (len(lines) < 1):
-		print "---------------NO MORE TWEETS LEFT---------------"
-		return
+		print "Trying to find tweets to tweet..."
+		time.sleep(5)
+		executeTweets()
 
 	tweet = lines[0]
 
@@ -77,23 +78,20 @@ def executeTweets():
 
 	#TODO: add case when these are in first 2 line
 
-	print "--- [{:%b %d | %H:%M}".format(datetime.today()) + "] --- "
-	print "Tweeting...", str(tweet)
-
+	print "[{:%b %d | %H:%M}".format(datetime.today()) + "]", str(tweet),
 	
 	try:
 		#if datetime.now().hour == TWEET_TIME 
 		if "RULERRULERRULER" not in tweet and "LATER:" not in tweet:
 			#my_bot.send_tweet(tweet)
-			print "---------------SUCCESSFULL TWEET---------------"
-			print tweet
+			print "[SUCCESSFUL]"
 			#open(DONEPATH, 'a').writelines(tweet)
 			#open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
 	
 
 	except TwitterError as err:
 		if err.e.code == 401:
-			print ("ERROR 401 Token expired")
+			print ("[ERROR 401 Token expired")
    		if err.e.code == 404:
    			print ("ERROR 404 Page not found")
    			executeTweets()
