@@ -24,11 +24,24 @@ import sys
 import time
 import random
 
-class TwitterBot:
+AUTOBOT = sys.argv[1:] 
+CONFIG = ''
 
-    #CONFIG = "configs/mannyconfig.txt"
-    #CONFIG = "configs/journalclubappconfig.txt"
+CONFIG = "configs/.txt"
+if (AUTOBOT ==  ['M']):
+    CONFIG = "configs/mannyconfig.txt"
+    print ("---------------MANNYBOT HAS STARTED---------------")
+
+if (AUTOBOT == ['T']):
     CONFIG = "configs/config.txt"
+    print ("---------------TESTINGBOT HAS STARTED---------------")
+
+if (AUTOBOT == ['J']):
+    CONFIG = "configs/journalconfig.txt"
+    print ("---------------JOURNALBOT HAS STARTED---------------")
+
+
+class TwitterBot:
 
     """
         Bot that automates several actions on Twitter, such as following users
@@ -70,7 +83,6 @@ class TwitterBot:
         return wait_time
 
     def bot_setup(self, config_file=CONFIG):
-
         """
             Reads in the bot configuration file and sets up the bot.
 
@@ -382,6 +394,13 @@ class TwitterBot:
                     print("Error: %s" % (str(api_error)), file=sys.stderr)
 
     def auto_unfollow_nonfollowers(self,count=None):
+        self.sync_follows()
+
+        followings = sum(1 for line in open('following.txt'))
+        followers = sum(1 for line in open('followers.txt'))
+
+        print ("STARTING AT", followings)
+
         """
             Unfollows everyone who hasn't followed you back.
         """
@@ -410,7 +429,9 @@ class TwitterBot:
                 self.wait_on_action()
 
                 self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
-                print("Unfollowed %d" % (user_id), file=sys.stdout)
+                #print("Unfollowed %d" % (user_id), file=sys.stdout)
+                followings = followings - 1
+                print(followings)
 
     def auto_unfollow_all_followers(self,count=None):
         """

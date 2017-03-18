@@ -11,26 +11,28 @@ from twitter import Twitter, TwitterError, TwitterHTTPError
 import sched
 import gspread
 import socket
+import sys
 
-#-------------SET VARIABLES HERE ONLY-------------
-AUTOBOT = 'T'
+AUTOBOT = sys.argv[1:] 
 TYPE = 'WORK'
-#-------------------------------------------------
+PROJECT = ''
+ACCOUNT = ''
 
-if (AUTOBOT ==  'M'):
+#-------------HOW TO RUN-------------
+# python mannybot.py M
+#------------------------------------
+
+if (AUTOBOT ==  ['M']):
 	PROJECT = 'MannyBot'
 	ACCOUNT = 'drmannylam'
-	print "---------------MANNYBOT HAS STARTED---------------"
 
-if (AUTOBOT == 'T'):
+if (AUTOBOT == ['T']):
 	PROJECT = 'TestingBot'
 	ACCOUNT = 'marikalee15'
-	print "---------------TESTINGBOT HAS STARTED---------------"
 
-if (AUTOBOT == 'J'):
+if (AUTOBOT == ['J']):
 	PROJECT = 'MannyBot'
 	ACCOUNT = 'journalclubapp'
-	print "---------------JOURNALBOT HAS STARTED---------------"
 
 if (TYPE == 'HOME'):
 	COMPUTER = 'marikalee'
@@ -38,9 +40,12 @@ if (TYPE == 'HOME'):
 if (TYPE =='WORK'):
 	COMPUTER = 'marika.lee'
 
-
-#TWEET_TIME = 7;
 REMOTE_SERVER = "www.google.com"
+
+def checkFollowingCount():
+	num_lines = sum(1 for line in open('following.txt'))
+	print (num_lines)
+
 
 def is_connected():
   try:
@@ -54,15 +59,18 @@ def is_connected():
 
 my_bot = TwitterBot()
 
+
 def executeTweets():
 	# if (is_connected() == False):
 	# 	time.sleep(5)
 	# 	print "Trying to connect to wifi.."
 	# 	executeTweets()
 
+	TWEETS2PATH = '/Users/%s/Dropbox/%s/%s/tweets2.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	DONEPATH = '/Users/%s/Dropbox/%s/%s/done.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	
+
 	file = open(TWEETSPATH, 'r')
 	lines = file.readlines()
 
@@ -71,22 +79,34 @@ def executeTweets():
 		time.sleep(5)
 		executeTweets()
 
-	tweet = lines[0]
-
-	if ("RULERRULERRULER" in tweet or "LATER:" in tweet):
-	 	tweet = lines[1]
-
-	#TODO: add case when these are in first 2 line
+	count = 0
+	tweet = ''
+	
+	if ("RULERRULERRULER" not in tweet and "LATER:" not in tweet):
+		tweet = lines[0]
+	else:	
+		while ("RULERRULERRULER" not in tweet and "LATER:" not in tweet):
+			count = count + 1
+			tweet = lines[count]
 
 	print "[{:%b %d | %H:%M}".format(datetime.today()) + "]", str(tweet),
 	
+	#CHECK SPACE!
+	#if just ruler
+
 	try:
-		#if datetime.now().hour == TWEET_TIME 
 		if "RULERRULERRULER" not in tweet and "LATER:" not in tweet:
-			#my_bot.send_tweet(tweet)
+			my_bot.send_tweet(tweet)
 			print "[SUCCESSFUL]"
-			#open(DONEPATH, 'a').writelines(tweet)
-			#open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
+			open(DONEPATH, 'a').writelines(tweet)
+			
+			if (count == 0):
+				open(TWEETSPATH, 'w').writelines(lines[1:len(lines)])
+			else:  
+				open(TWEETSPATH, 'w').writelines(lines[0:count])
+				open(TWEETSPATH, 'a').writelines(lines[count+1:len(lines)])
+
+
 	
 
 	except TwitterError as err:
@@ -105,10 +125,11 @@ def executeTweets():
 	
 
 
-executeTweets()		
+#executeTweets()		
 #schedule.every(1).minutes.do(executeTweets)
 #schedule.every().hour.do(job)
-#schedule.every().day.at("06:30").do(executeTweets)
+schedule.every().day.at("06:30").do(executeTweets)
+#my_bot.sync_follows()
 
 
 while 1:
