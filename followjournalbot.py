@@ -4,12 +4,30 @@ from TwitterFollowBot import TwitterBot
 my_bot = TwitterBot()
 my_bot.sync_follows()
 
-my_bot.auto_follow("stanford", count=100)
-my_bot.auto_follow("#stanford", count=50)
+my_bot.auto_follow("stanford", count=50)
 my_bot.auto_follow("stanfordmed", count=50)
+
+my_bot.sync_follows()
+my_bot.auto_unfollow_nonfollowers(100)
+
+my_bot.auto_unfollow_nonfollowers(50)
 my_bot.auto_follow("#stanfordmed", count=50)
-my_bot.auto_follow("medicine", count=150)
+
+my_bot.sync_follows()
+my_bot.auto_unfollow_nonfollowers(100)
+
+my_bot.auto_unfollow_nonfollowers(50)
+my_bot.auto_follow("medicine", count=50)
+
+my_bot.sync_follows()
+my_bot.auto_unfollow_nonfollowers(100)
+
+my_bot.auto_unfollow_nonfollowers(50)
 my_bot.auto_follow("#medicine", count=50)
+
+my_bot.sync_follows()
+my_bot.auto_unfollow_nonfollowers(50)
+
 
 #my_bot.get_followers_list(self)
 #--------automatically follow any users that tweet something with a specific phrase 

@@ -24,21 +24,25 @@ import sys
 import time
 import random
 
-AUTOBOT = sys.argv[1:] 
+AUTOBOT = sys.argv[1:2] 
+CONFIG = ''
+BOT = ''
 CONFIG = ''
 
-CONFIG = "configs/.txt"
+
 if (AUTOBOT ==  ['M']):
     CONFIG = "configs/mannyconfig.txt"
-    print ("---------------MANNYBOT HAS STARTED---------------")
+    BOT = 'MANNYBOT'
+    print ("---------------MANNYBOT---------------")
 
-if (AUTOBOT == ['T']):
+elif (AUTOBOT == ['T']):
     CONFIG = "configs/config.txt"
-    print ("---------------TESTINGBOT HAS STARTED---------------")
+    print ("---------------TESTINGBOT---------------")
 
-if (AUTOBOT == ['J']):
+elif (AUTOBOT == ['J']):
     CONFIG = "configs/journalconfig.txt"
-    print ("---------------JOURNALBOT HAS STARTED---------------")
+    BOT = 'JOURNALBOT'   
+    print ("---------------JOURNALBOT---------------")
 
 
 class TwitterBot:
@@ -431,7 +435,7 @@ class TwitterBot:
                 self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
                 #print("Unfollowed %d" % (user_id), file=sys.stdout)
                 followings = followings - 1
-                print(followings)
+                print(BOT, followings)
 
     def auto_unfollow_all_followers(self,count=None):
         """
