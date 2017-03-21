@@ -25,22 +25,19 @@ import time
 import random
 
 AUTOBOT = sys.argv[1:2] 
-CONFIG = ''
-BOT = ''
-CONFIG = ''
-
+COMPUTER = 'marika.lee'
 
 if (AUTOBOT ==  ['M']):
-    CONFIG = "configs/mannyconfig.txt"
+    CONFIG = '/Users/%s/Dropbox/MannyBot/configs/mannyconfig.txt' % (COMPUTER)
     BOT = 'MANNYBOT'
     print ("---------------MANNYBOT---------------")
 
 elif (AUTOBOT == ['T']):
-    CONFIG = "configs/config.txt"
+    CONFIG = '/Users/%s/Dropbox/MannyBot/configs/config.txt' % (COMPUTER)
     print ("---------------TESTINGBOT---------------")
 
 elif (AUTOBOT == ['J']):
-    CONFIG = "configs/journalconfig.txt"
+    CONFIG = '/Users/%s/Dropbox/MannyBot/configs/journalconfig.txt' % (COMPUTER)
     BOT = 'JOURNALBOT'   
     print ("---------------JOURNALBOT---------------")
 
@@ -81,7 +78,7 @@ class TwitterBot:
         wait_time = random.randint(min_time, max_time)
 
         if wait_time > 0:
-            print("Choosing time between %d and %d - waiting %d seconds before action" % (min_time, max_time, wait_time))
+            #print("Choosing time between %d and %d - waiting %d seconds before action" % (min_time, max_time, wait_time))
             time.sleep(wait_time)
 
         return wait_time
@@ -169,6 +166,11 @@ class TwitterBot:
         followers = set(followers_status["ids"])
         next_cursor = followers_status["next_cursor"]
 
+        t = self.TWITTER_CONNECTION.followers.ids(id_str="796538097836183552")
+        #print(t)
+        t = self.TWITTER_CONNECTION.followers.ids(id_str="796538097836183552")
+
+
         with open(self.BOT_CONFIG["FOLLOWERS_FILE"], "w") as out_file:
             for follower in followers:
                 out_file.write("%s\n" % (follower))
@@ -227,6 +229,18 @@ class TwitterBot:
         return set(followers_list)
 
     def get_follows_list(self):
+        """
+            Returns the set of users that the user is currently following.
+        """
+
+        follows_list = []
+        with open(self.BOT_CONFIG["FOLLOWS_FILE"], "r") as in_file:
+            for line in in_file:
+                follows_list.append(int(line))
+
+        return set(follows_list)
+
+    def get_over_200_list(self):
         """
             Returns the set of users that the user is currently following.
         """
@@ -403,8 +417,6 @@ class TwitterBot:
         followings = sum(1 for line in open('following.txt'))
         followers = sum(1 for line in open('followers.txt'))
 
-        print ("STARTING AT", followings)
-
         """
             Unfollows everyone who hasn't followed you back.
         """
@@ -435,7 +447,7 @@ class TwitterBot:
                 self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
                 #print("Unfollowed %d" % (user_id), file=sys.stdout)
                 followings = followings - 1
-                print(BOT, followings)
+                print("UNFOLLOW - ", BOT, followings)
 
     def auto_unfollow_all_followers(self,count=None):
         """
@@ -458,8 +470,8 @@ class TwitterBot:
 
         following = self.get_follows_list()
         muted = set(self.TWITTER_CONNECTION.mutes.users.ids(screen_name=self.BOT_CONFIG["TWITTER_HANDLE"])["ids"])
-
         not_muted = following - muted
+        print ("not_muted", not_muted)
 
         for user_id in not_muted:
             if user_id not in self.BOT_CONFIG["USERS_KEEP_UNMUTED"]:
