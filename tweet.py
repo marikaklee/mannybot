@@ -13,6 +13,35 @@ import gspread
 import socket
 import sys
 
+AUTOBOT = sys.argv[1:2] 
+print(AUTOBOT)
+WHEN = sys.argv[2:3]
+
+TYPE = 'WORK'
+PROJECT = ''
+ACCOUNT = ''
+
+#-------------HOW TO RUN-------------
+# python mannybot.py M
+#------------------------------------
+
+if (AUTOBOT ==  ['M']):
+	PROJECT = 'MannyBot'
+	ACCOUNT = 'drmannylam'
+
+if (AUTOBOT == ['T']):
+	PROJECT = 'TestingBot'
+	ACCOUNT = 'marikalee15'
+
+if (AUTOBOT == ['J']):
+	PROJECT = 'MannyBot'
+	ACCOUNT = 'journalclubapp'
+
+if (TYPE == 'HOME'):
+	COMPUTER = 'marikalee'
+
+if (TYPE =='WORK'):
+	COMPUTER = 'marika.lee'
 
 REMOTE_SERVER = "www.google.com"
 
