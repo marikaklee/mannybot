@@ -101,10 +101,10 @@ class TwitterBot:
                 if parameter in ["USERS_KEEP_FOLLOWING", "USERS_KEEP_UNMUTED", "USERS_KEEP_MUTED"]:
                     if value != "":
                         self.BOT_CONFIG[parameter] = str(value)#set([int(x) for x in value.split(",")])
-                        print(value)
+                    
                     else:
                         self.BOT_CONFIG[parameter] = set()
-                        print(set())
+           
                 elif parameter in ["FOLLOW_BACKOFF_MIN_SECONDS", "FOLLOW_BACKOFF_MAX_SECONDS"]:
                     self.BOT_CONFIG[parameter] = int(value)
                 else:
@@ -169,7 +169,7 @@ class TwitterBot:
         next_cursor = followers_status["next_cursor"]
 
         t = self.TWITTER_CONNECTION.followers.ids(id_str="796538097836183552")
-        #print(t)
+
         t = self.TWITTER_CONNECTION.followers.ids(id_str="796538097836183552")
 
 
@@ -342,7 +342,7 @@ class TwitterBot:
                     self.TWITTER_CONNECTION.mutes.users.create(user_id=tweet["user"]["id"])
                     following.update(set([tweet["user"]["id"]]))
 
-                    followerSum = followerSum - 1
+                    followingSum = followingSum + 1
 
                     print("FOLLOW - ", BOT, followingSum, followerSum)
 
@@ -422,6 +422,7 @@ class TwitterBot:
                 # frequent
                 if "already requested to follow" not in str(api_error).lower():
                     print("Error: %s" % (str(api_error)), file=sys.stderr)
+
 
     def auto_unfollow_nonfollowers(self,count=None):
         self.sync_follows()

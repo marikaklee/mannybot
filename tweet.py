@@ -68,6 +68,9 @@ def executeTweets():
 	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets/tweets.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	DONEPATH = '/Users/%s/Dropbox/%s/%s/done/done.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	
+	# TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets/glossary.txt' % (COMPUTER, PROJECT, ACCOUNT)
+	# DONEPATH = '/Users/%s/Dropbox/%s/%s/done/done.txt' % (COMPUTER, PROJECT, ACCOUNT)
+	
 	print(TWEETSPATH)
 
 	file = open(TWEETSPATH, 'r')

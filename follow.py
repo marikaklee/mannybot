@@ -1,13 +1,14 @@
 from TwitterFollowBot import TwitterBot
 import sys
 
-my_bot = TwitterBot()
-
-#my_bot.sync_follows()
-
 AUTOBOT = sys.argv[1:] 
 
+my_bot = TwitterBot()
+my_bot.sync_follows()
+
+
 if (AUTOBOT ==  ['M']):
+	my_bot.auto_follow("intermittentfasting", count=50)
 	my_bot.auto_follow("keto", count=50)
 	my_bot.auto_follow("#keto", count=50)
 	my_bot.auto_follow("ketogenic", count=50)
