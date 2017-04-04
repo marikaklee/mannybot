@@ -20,6 +20,7 @@ WHEN = sys.argv[2:3]
 TYPE = 'WORK'
 PROJECT = ''
 ACCOUNT = ''
+QUEUE = 'tweets'
 
 #-------------HOW TO RUN-------------
 # python mannybot.py M
@@ -65,8 +66,8 @@ def executeTweets():
 	# 	executeTweets()
 
 	print(PROJECT)
-	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets/tweets.txt' % (COMPUTER, PROJECT, ACCOUNT)
-	DONEPATH = '/Users/%s/Dropbox/%s/%s/done/done.txt' % (COMPUTER, PROJECT, ACCOUNT)
+	TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets/%s.txt' % (COMPUTER, PROJECT, ACCOUNT, QUEUE)
+	DONEPATH = '/Users/%s/Dropbox/%s/%s/done/%s_done.txt' % (COMPUTER, PROJECT, ACCOUNT, QUEUE)
 	
 	# TWEETSPATH = '/Users/%s/Dropbox/%s/%s/tweets/glossary.txt' % (COMPUTER, PROJECT, ACCOUNT)
 	# DONEPATH = '/Users/%s/Dropbox/%s/%s/done/done.txt' % (COMPUTER, PROJECT, ACCOUNT)

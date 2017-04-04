@@ -456,11 +456,36 @@ class TwitterBot:
             if user_id not in self.BOT_CONFIG["USERS_KEEP_FOLLOWING"]:
 
                 self.wait_on_action()
+           
+                #followersCount = len(set(self.TWITTER_CONNECTION.followers.ids(user_id=user_id)["ids"][:count]))
 
+                #TODO store in DB
+                #if (followersCount < 200):
                 self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
                 followingSum = followingSum - 1
-                #print("Unfollowed %d" % (user_id), file=sys.stdout)
-                print("UNFOLLOW", BOT, followingSum, followerSum)
+                print ("UNFOLLOW", BOT, followingSum, followerSum)
+
+    def auto_unfollow_followers_less_than_200(self,count=None):
+        self.sync_follows()
+
+        #get following list
+        following = self.get_follows_list()
+        followers = self.get_followers_list()
+
+        following = list(following)[:count]
+        #for each in following list
+        for user_id in following:
+            #if the user is NOT in the list of KEEP FOLLOWING
+              
+                followersCount = len(set(self.TWITTER_CONNECTION.followers.ids(user_id=user_id)["ids"][:count]))
+                print (user_id, followersCount)
+
+                #if user has less than 200  
+                if (followersCount < 200):
+                    self.wait_on_action()
+                    self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
+                    print ("UNFOLLOW", BOT)
+            
 
     def auto_unfollow_all_followers(self,count=None):
         """
