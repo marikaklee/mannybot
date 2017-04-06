@@ -25,7 +25,7 @@ import time
 import random
 
 AUTOBOT = sys.argv[1:2] 
-COMPUTER = 'marika.lee'
+COMPUTER = 'marikalee'
 
 if (AUTOBOT ==  ['M']):
     CONFIG = '/Users/%s/Dropbox/MannyBot/configs/mannyconfig.txt' % (COMPUTER)
@@ -323,9 +323,6 @@ class TwitterBot:
             Follows anyone who tweets about a phrase (hashtag, word, etc.).
         """
 
-        followingSum = sum(1 for line in open('following.txt'))
-        followerSum = sum(1 for line in open('followers.txt'))
-
         result = self.search_tweets(phrase, count, result_type)
         following = self.get_follows_list()
         do_not_follow = self.get_do_not_follow_list()
@@ -342,9 +339,7 @@ class TwitterBot:
                     self.TWITTER_CONNECTION.mutes.users.create(user_id=tweet["user"]["id"])
                     following.update(set([tweet["user"]["id"]]))
 
-                    followingSum = followingSum + 1
-
-                    print("FOLLOW - ", BOT, followingSum, followerSum)
+                    print("Following...")
 
 
                     # print("Followed %s" %

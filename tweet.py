@@ -17,7 +17,7 @@ AUTOBOT = sys.argv[1:2]
 print(AUTOBOT)
 WHEN = sys.argv[2:3]
 
-TYPE = 'WORK'
+TYPE = 'HOME'
 PROJECT = ''
 ACCOUNT = ''
 QUEUE = 'tweets'
@@ -40,9 +40,6 @@ if (AUTOBOT == ['J']):
 
 if (TYPE == 'HOME'):
 	COMPUTER = 'marikalee'
-
-if (TYPE =='WORK'):
-	COMPUTER = 'marika.lee'
 
 REMOTE_SERVER = "www.google.com"
 
