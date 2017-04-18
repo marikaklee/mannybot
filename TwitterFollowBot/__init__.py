@@ -25,7 +25,9 @@ import time
 import random
 
 AUTOBOT = sys.argv[1:2] 
-COMPUTER = 'marikalee'
+NUM = sys.argv[2:3]
+
+COMPUTER = 'm0l01bz'
 
 if (AUTOBOT ==  ['M']):
     CONFIG = '/Users/%s/Dropbox/MannyBot/configs/mannyconfig.txt' % (COMPUTER)
@@ -331,7 +333,8 @@ class TwitterBot:
             try:
                 if (tweet["user"]["screen_name"] != self.BOT_CONFIG["TWITTER_HANDLE"] and
                         tweet["user"]["id"] not in following and
-                        tweet["user"]["id"] not in do_not_follow):
+                        tweet["user"]["id"] not in do_not_follow and
+                        count <= NUM):
 
                     self.wait_on_action()
 
@@ -428,7 +431,6 @@ class TwitterBot:
         """
             Unfollows everyone who hasn't followed you back.
         """
-
         following = self.get_follows_list()
         followers = self.get_followers_list()
 
@@ -448,7 +450,8 @@ class TwitterBot:
                 out_file.write(str(val) + "\n")
 
         for user_id in not_following_back:
-            if user_id not in self.BOT_CONFIG["USERS_KEEP_FOLLOWING"]:
+            print (NUM)
+            if (user_id not in self.BOT_CONFIG["USERS_KEEP_FOLLOWING"] and count <= NUM):
 
                 self.wait_on_action()
            
@@ -457,8 +460,7 @@ class TwitterBot:
                 #TODO store in DB
                 #if (followersCount < 200):
                 self.TWITTER_CONNECTION.friendships.destroy(user_id=user_id)
-                followingSum = followingSum - 1
-                print ("UNFOLLOW", BOT, followingSum, followerSum)
+                print (BOT, "unfollowing...")
 
     def auto_unfollow_followers_less_than_200(self,count=None):
         self.sync_follows()
